@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Typing Test</title>
+    <link rel="stylesheet" href="css/accueil.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <header>
+        <h1>Typing Test</h1>
+        <section class="mod_choice">
+            <label for="mode">Select Mode:</label>
+        <select id="mode">
+            <option value="easy">Easy</option>
+            <option value="medium">Medium</option>
+            <option value="hard">Hard</option>
+        </select>
+        </section>
+    </header>
+
+    <main>
+        <section class="section_word-display">
+            <p id="word-display"></p>
+        </section>
+        <input type="text" id="input-field" readonly autofocus>
+        <p id="results">Results : </p>
+    </main>
+    
+<div class="keyboard" id="keyboard">
+    <!-- clavier generer par js -->
+    </div>
+
+    <script src="javascript/accuel.js"></script>
+    <script src="javascript/clavier.js"></script>
+</body>
+
+</html>

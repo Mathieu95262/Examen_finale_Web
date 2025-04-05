@@ -1,0 +1,116 @@
+* {
+  box-sizing: border-box;
+}
+:root {
+  --primary_color: #222;
+  --second_color: #fff;
+  --third_color: #444;
+  --background_color: #000;
+}
+body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100vh;
+  background-color: var(--background_color);
+  color: var(--second_color);
+  font-family: Arial, sans-serif;
+  scrollbar-width: 0;
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+}
+.mod_choice {
+  position: absolute;
+  left: 0;
+  top: 0;
+  background-color: green;
+  padding: 1.5rem 2rem;
+  margin: auto;
+}
+
+input {
+  width: 900px;
+  height: 50px;
+  margin-top: 8rem;
+  font-size: 20px;
+  text-align: center;
+  margin-bottom: 20px;
+  border: 2px solid cyan;
+  border-radius: 5px;
+  background: black;
+  color: var(--second_color);
+  outline: none;
+}
+#results {
+  position: absolute;
+  right: 0;
+  top: 0;
+  padding: 1.5rem 2rem;
+  margin: auto;
+  background-color: #444;
+  color: rgb(3, 184, 255);
+}
+.keyboard {
+  display: grid;
+  grid-template-columns: repeat(10, 60px);
+  gap: 10px;
+  padding: 20px;
+  background: var(--primary_color);
+  border-radius: 10px;
+}
+.key {
+  width: 60px;
+  height: 60px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 5px;
+  background: var(--third_color);
+  color: white;
+  font-size: 20px;
+  font-weight: bold;
+  text-transform: uppercase;
+  transition: background 0.3s;
+  cursor: pointer;
+  user-select: none;
+}
+.active {
+  background: cyan;
+  box-shadow: 0 0 10px cyan;
+}
+.key-backspace {
+  grid-column: span 2;
+  width: 105px;
+}
+
+/* animation pour le changement de mot */
+span {
+  margin: auto;
+  font-size: 2rem;
+  color: var(--background_color);
+  transition: transform 0.5s;
+}
+#word-display {
+  text-align: center;
+  height: 3rem;
+  font-family: "Orbitron", sans-serif;
+  transition: transform 0.3s ease, color 0.3s ease, text-shadow 0.3s ease;
+  font-family: "Orbitron", sans-serif; /* Optionnel mais stylé */
+  
+}
+.section_word-display {
+  border: 2px solid red;
+  overflow: hidden;
+}
+
+.highlighted {
+  color: red;
+  transition: color 0.3s;
+}
+
+.faded {
+  opacity: 0;
+  color: black;
+  transition: opacity 0.3s;
+}
