@@ -28,6 +28,9 @@ const words = {
   ],
 };
 
+const trueWords = 0;
+const falseWords = 0;
+
 //,Générer un mot aléatoire à partir du mode sélectionné
 const getRandomWord = (mode) => {
   const wordList = words[mode];
@@ -84,13 +87,13 @@ const getCurrentStats = () => {
 };
 // Passer au mot suivant et mettre à jour les statistiques uniquement en appuyant sur la barre d'espace
 function updateWord(event) {
+  // window.addEventListener("click" , ())
   if (event.key === " ") {
     // Vérifiez si la barre d'espace est enfoncée
     if (inputField.value.trim() === wordsToType[currentWordIndex]) {
       if (!previousEndTime) previousEndTime = startTime;
 
       const { wpm, accuracy } = getCurrentStats();
-      results.textContent = `WPM: ${wpm}, Accuracy: ${accuracy}%`;
 
       currentWordIndex++;
       previousEndTime = Date.now();
@@ -98,6 +101,17 @@ function updateWord(event) {
 
       inputField.value = ""; // Effacer le champ de saisie après un espace
       event.preventDefault(); // Empêcher l'ajout d'espaces supplémentaires
+      trueWords++;
+    } else {
+      const { wpm, accuracy } = getCurrentStats();
+
+      currentWordIndex++;
+      previousEndTime = Date.now();
+      highlightNextWord();
+
+      inputField.value = ""; // Effacer le champ de saisie après un espace
+      event.preventDefault(); // Empêcher l'ajout d'espaces supplémentaires
+      falseWords++;
     }
   }
 }
@@ -116,10 +130,8 @@ const highlightNextWord = () => {
 
     const current = wordElements[currentWordIndex];
     current.style.color = "red";
-    current.style.position = "absolute"
-    current.style.top = "5px"
-
-    
+    current.style.position = "absolute";
+    current.style.top = "16px";
   }
 };
 

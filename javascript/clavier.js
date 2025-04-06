@@ -43,8 +43,8 @@ let enterKey = document.createElement("div");
 keyboardDiv.appendChild(enterKey);
 enterKey.classList.add("key", "key-enter");
 enterKey.textContent = "OK";
+enterKey.style.gridColumn = "span 4";
 enterKey.style.backgroundColor = "green";
-enterKey.style.gridColumn= "span 3"
 
 // Fonction 
 function deleteLastCharacter() {
