@@ -14,7 +14,7 @@ const modeSelect = document.getElementById("mode");
 const wordDisplay = document.getElementById("word-display");
 const inputField = document.getElementById("input-field");
 const results = document.getElementById("results");
-const section_wordDisplay = document.querySelector(".document.getElementById");
+const section_wordDisplay = document.querySelector(".section_word-display");
 
 const words = {
   easy: ["apple", "banana", "grape", "orange", "cherry"],
@@ -49,7 +49,6 @@ const startTest = (wordCount = 50) => {
   wordsToType.forEach((word, index) => {
     const span = document.createElement("span");
     span.innerHTML = word + "<br>";
-    span.style.transform = "translateY(0rem)";
 
     if (index === 0) {
       span.style.color = "red"; // Surligner le premier mot
@@ -109,18 +108,18 @@ const highlightNextWord = () => {
   const wordElements = wordDisplay.children;
 
   if (currentWordIndex < wordElements.length) {
-
     if (currentWordIndex > 0) {
       const previous = wordElements[currentWordIndex - 1];
       previous.classList.remove("highlighted");
       previous.classList.add("faded");
     }
 
-
     const current = wordElements[currentWordIndex];
-    current.classList.add("highlighted");
+    current.style.color = "red";
+    current.style.position = "absolute"
+    current.style.top = "5px"
 
-    wordDisplay.style.transform = `translateY(-${currentWordIndex * 3}rem)`;
+    
   }
 };
 

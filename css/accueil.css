@@ -88,7 +88,7 @@ input {
 span {
   margin: auto;
   font-size: 2rem;
-  color: var(--background_color);
+  color: var(--second_color);
   transition: transform 0.5s;
 }
 #word-display {
@@ -96,21 +96,21 @@ span {
   height: 3rem;
   font-family: "Orbitron", sans-serif;
   transition: transform 0.3s ease, color 0.3s ease, text-shadow 0.3s ease;
-  font-family: "Orbitron", sans-serif; /* Optionnel mais stylé */
+  font-family: "Orbitron", sans-serif;
   
 }
 .section_word-display {
   border: 2px solid red;
   overflow: hidden;
+  scroll-behavior: smooth;
+  position: relative;
+  line-height: 300%;
 }
 
-.highlighted {
-  color: red;
-  transition: color 0.3s;
-}
-
+/* classe qui colorie les mot precedent en noir */
 .faded {
   opacity: 0;
   color: black;
-  transition: opacity 0.3s;
+  top: -50px;
+  transition: top 0.3s;
 }
