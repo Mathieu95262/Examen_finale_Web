@@ -87,9 +87,12 @@ const getCurrentStats = () => {
 };
 // Passer au mot suivant et mettre à jour les statistiques uniquement en appuyant sur la barre d'espace
 function updateWord(event) {
+   if (event.key === "Backspace") {
+     event.preventDefault();
+   }
   // window.addEventListener("click" , ())
-  if (event.key === " ") {
-    // Vérifiez si la barre d'espace est enfoncée
+  if (inputField.value.length === wordsToType[currentWordIndex].length+1) {
+    // Vérifiez si c'est vrai
     if (inputField.value.trim() === wordsToType[currentWordIndex]) {
       if (!previousEndTime) previousEndTime = startTime;
 
