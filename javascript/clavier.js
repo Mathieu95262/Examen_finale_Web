@@ -3,6 +3,9 @@ const keyboardDiv = document.getElementById("keyboard");
 const textInput = document.getElementById("input-field");
 
 document.addEventListener("click", (event) => {
+   if (event.key === "Backspace") {
+     event.preventDefault();
+   }
   if (event.target !== textInput) {
     inputField.focus();
   }
@@ -34,9 +37,8 @@ keys.forEach((letter) => {
 let enterKey = document.createElement("div");
 keyboardDiv.appendChild(enterKey);
 enterKey.classList.add("key", "key-enter");
-enterKey.textContent = "OK";
-enterKey.style.gridColumn = "span 4";
-enterKey.style.backgroundColor = "green";
+enterKey.style.width = "0"
+enterKey.style.height = "0"
 
 // Écouteur d'événements pour détecter les touches du clavier physique
 document.addEventListener("keydown", (event) => {
