@@ -1,159 +1,202 @@
-// face a notre problem pour le select ,le solution que j'ai 
-// trouver est de entourer notre script par une addEventListener DOMContentLoaded
+/**
+ * Point culture (en Français car je suis un peu obligé):
+ * Dans ce genre de jeu, un mot equivaut a 5 caractères, y compris les espaces.
+ * La precision, c'est le pourcentage de caractères tapées correctement sur toutes les caractères tapées.
+ */
 
-document.addEventListener("DOMContentLoaded", () => {
-  /**
-   * Point culture (en Français car je suis un peu obligé):
-   * Dans ce genre de jeu, un mot equivaut a 5 caractères, y compris les espaces.
-   * La precision, c'est le pourcentage de caractères tapées correctement sur toutes les caractères tapées.
-   *
-   * Sur ce... Amusez-vous bien !
-   */
-  let startTime = null,
-    previousEndTime = null;
-  let currentWordIndex = 0;
-  const wordsToType = [];
+// Données de mots selon le niveau
+const words = {
+  easy: ["apple", "banana", "grape", "orange", "cherry"],
+  medium: ["keyboard", "monitor", "printer", "charger", "battery"],
+  hard: [
+    "synchronize",
+    "complicated",
+    "development",
+    "extravagant",
+    "misconception",
+  ],
+};
 
-  const modeSelect = document.getElementById("mode");
-  const wordDisplay = document.getElementById("word-display");
-  const inputField = document.getElementById("input-field");
-  const results = document.getElementById("results");
-  const section_wordDisplay = document.querySelector(".section_word-display");
+let currentDifficulty = "easy";
+let wordCount = 0;
+let correctChars = 0;
+let totalChars = 0;
 
-  const words = {
-    easy: ["apple", "banana", "grape", "orange", "cherry"],
-    medium: ["keyboard", "monitor", "printer", "charger", "battery"],
-    hard: [
-      "synchronize",
-      "complicated",
-      "development",
-      "extravagant",
-      "misconception",
-    ],
-  };
+const container = document.getElementById("word-container");
+const input = document.getElementById("input-container");
+const loading = document.getElementById("loading");
+const wordCountDisplay = document.getElementById("word-count");
+const accuracyDisplay = document.getElementById("accuracy");
+const modeSelect = document.getElementById("mode");
 
-  let trueWords = 0;
-  let falseWords = 0;
+function getRandomWord(mode) {
+  const wordList = words[mode];
+  return wordList[Math.floor(Math.random() * wordList.length)];
+}
 
-  //,Générer un mot aléatoire à partir du mode sélectionné
-  const getRandomWord = (mode) => {
-    const wordList = words[mode];
-    return wordList[Math.floor(Math.random() * wordList.length)];
-  };
+function displayWord(word) {
+  container.innerHTML = "";
+  container.classList.remove("word-transition");
+  void container.offsetWidth; // Trigger reflow
+  container.classList.add("word-transition");
 
-  //Initialiser le test de frappe
-  const startTest = (wordCount = 50) => {
-    wordsToType.length = 0; //effacer le mot précédent
-    wordDisplay.innerHTML = ""; //Affichage clair
-    currentWordIndex = 0;
-    startTime = null;
-    previousEndTime = null;
+  for (let letter of word) {
+    const span = document.createElement("span");
+    span.textContent = letter;
+    span.classList.add("letter");
+    container.appendChild(span);
+  }
+}
 
-    for (let i = 0; i < wordCount; i++) {
-      wordsToType.push(getRandomWord(modeSelect.value));
-    }
+function showNextWord() {
+  displayWord(getRandomWord(currentDifficulty));
+  input.value = "";
+  input.focus();
+  wordCount++;
+  wordCountDisplay.textContent = wordCount;
+}
 
-    wordsToType.forEach((word, index) => {
-      const span = document.createElement("span");
-      span.innerHTML = word + "<br>";
+function nextWordWithLoading() {
+  container.style.opacity = "0";
+  input.style.display = "none";
+  loading.style.display = "block";
 
-      if (index === 0) {
-        span.style.color = "red"; // Surligner le premier mot
-      }
-      wordDisplay.appendChild(span);
-    });
+  setTimeout(() => {
+    showNextWord();
+    container.style.opacity = "1";
+    input.style.display = "block";
+    loading.style.display = "none";
+  }, 500);
+}
 
-    inputField.value = "";
-    results.textContent = "";
-  };
+function updateAccuracy() {
+  const accuracy =
+    totalChars > 0 ? Math.round((correctChars / totalChars) * 100) : 100;
+  accuracyDisplay.textContent = `${accuracy}%`;
 
-  // Démarrer le minuteur lorsque l'utilisateur commence à taper
-  const startTimer = () => {
-    if (!startTime) startTime = Date.now();
-  };
+  if (accuracy >= 90) {
+    accuracyDisplay.style.color = "#00ff44";
+  } else if (accuracy >= 70) {
+    accuracyDisplay.style.color = "#ffcc00";
+  } else {
+    accuracyDisplay.style.color = "#ff3333";
+  }
+}
 
-  // Calculer et renvoyer les mots par minute et la précision
-  const getCurrentStats = () => {
-    const elapsedTime = (Date.now() - previousEndTime) / 1000;
-    const wpm = wordsToType[currentWordIndex].length / 5 / (elapsedTime / 60); // WPM
+function resetTest() {
+  wordCount = 0;
+  correctChars = 0;
+  totalChars = 0;
+  wordCountDisplay.textContent = "0";
+  accuracyDisplay.textContent = "100%";
+  accuracyDisplay.style.color = "#00a8ff";
+  showNextWord();
+}
 
-    let accuracy = 0;
+input.addEventListener("input", () => {
+  const word = container.textContent;
+  const typed = input.value;
+  const spans = container.querySelectorAll(".letter");
 
-    // Vérification avant de calculer accuracy
-    if (inputField.value.length > 0) {
-      accuracy =
-        (Math.min(
-          wordsToType[currentWordIndex].length,
-          inputField.value.length
-        ) /
-          inputField.value.length) *
-        100;
-    }
+  // Réinitialiser les classes
+  spans.forEach((span) => (span.className = "letter"));
 
-    return { wpm: wpm.toFixed(2), accuracy: accuracy.toFixed(2) };
-  };
-  // Passer au mot suivant et mettre à jour les statistiques uniquement en appuyant sur la barre d'espace
-  function updateWord(event) {
-    if (event.key === "Backspace") {
-      event.preventDefault();
-    }
-    // window.addEventListener("click" , ())
-    if (event.key === "Enter") {
-      // Vérifiez si c'est vrai
-      if (inputField.value.trim() === wordsToType[currentWordIndex]) {
-        if (!previousEndTime) previousEndTime = startTime;
+  // Vérifier chaque caractère
+  for (let i = 0; i < typed.length; i++) {
+    if (i >= word.length) break;
 
-        const { wpm, accuracy } = getCurrentStats();
-
-        currentWordIndex++;
-        previousEndTime = Date.now();
-        highlightNextWord();
-
-        inputField.value = ""; // Effacer le champ de saisie après un espace
-        event.preventDefault(); // Empêcher l'ajout d'espaces supplémentaires
-        trueWords++;
-      } else {
-        const { wpm, accuracy } = getCurrentStats();
-
-        currentWordIndex++;
-        previousEndTime = Date.now();
-        highlightNextWord();
-
-        inputField.value = ""; // Effacer le champ de saisie après un espace
-        event.preventDefault(); // Empêcher l'ajout d'espaces supplémentaires
-        falseWords++;
-      }
+    totalChars++;
+    if (typed[i] === word[i]) {
+      spans[i].classList.add("correct");
+      correctChars++;
+    } else {
+      spans[i].classList.add("wrong");
     }
   }
 
-  // Highlight the current word in red
+  updateAccuracy();
 
-  const highlightNextWord = () => {
-    const wordElements = wordDisplay.children;
-
-    if (currentWordIndex < wordElements.length) {
-      if (currentWordIndex > 0) {
-        const previous = wordElements[currentWordIndex - 1];
-        previous.classList.remove("highlighted");
-        previous.classList.add("faded");
-      }
-
-      const current = wordElements[currentWordIndex];
-      current.style.color = "red";
-      current.style.position = "absolute";
-      current.style.top = "16px";
-    }
-  };
-
-  // Event listeners
-  // Attach `updateWord` to `keydown` instead of `input`
-  inputField.addEventListener("keydown", (event) => {
-    startTimer();
-    updateWord(event);
-  });
-  modeSelect.addEventListener("change", () => startTest());
-
-  // Start the test
-  startTest();
+  // Mot complet (vérifie si la longueur correspond et si le dernier caractère est correct)
+  if (typed.length === word.length) {
+    nextWordWithLoading();
+  }
 });
 
+modeSelect.addEventListener("change", () => {
+  currentDifficulty = modeSelect.value;
+  changeStylBorder(currentDifficulty);
+  resetTest();
+});
+
+// Affichage initial
+resetTest();
+
+
+
+//clavier visuel
+const keys = "AZERTYUIOPQSDFGHJKLMWXCVBN".split(""); // Lettres du clavier
+const keyboardDiv = document.getElementById("keyboard");
+const textInput = document.getElementById("input-field"); // Changé pour correspondre à votre champ d'entrée
+let ignoreNextKeydown = false; // Nouveau flag pour éviter les doubles entrées
+document.addEventListener("click", (event) => {
+  if (event.target !== textInput) {
+    inputField.focus();
+  }
+});
+
+//pour activer une touche et ajouter la lettre dans l'input
+function activateKey(keyPressed, fromClick = false) {
+  let keyDiv = document.getElementById(`key-${keyPressed.toLowerCase()}`);
+  if (keyDiv) {
+    keyDiv.classList.add("active");
+    if (fromClick) {
+      ignoreNextKeydown = true; // On ignore le prochain keydown
+      const inputEvent = new Event("input", { bubbles: true });
+      textInput.value += keyPressed;
+      textInput.dispatchEvent(inputEvent);
+    }
+    setTimeout(() => keyDiv.classList.remove("active"), 300);
+  }
+}
+
+// Générer les touches du clavier visuel
+
+function changeStylBorder(difficulty) {
+  keyboardDiv.innerHTML = "";
+
+  keys.forEach((letter) => {
+    let keyDiv = document.createElement("div");
+    keyDiv.classList= '';
+    keyDiv.classList.add(`key_${difficulty}`); // Utilise la nouvelle difficulté
+    keyDiv.textContent = letter;
+    keyDiv.id = `key-${letter.toLowerCase()}`;
+    keyboardDiv.appendChild(keyDiv);
+
+    keyDiv.addEventListener("click", (e) => {
+      e.preventDefault();
+      activateKey(letter.toLowerCase(), true);
+    });
+  });
+}
+
+
+// Écouteur d'événements pour détecter les touches du clavier physique
+document.addEventListener("keydown", (event) => {
+  if (ignoreNextKeydown) {
+    ignoreNextKeydown = false;
+    return;
+  }
+
+  let keyPressed = event.key.toLowerCase();
+  if (keys.includes(event.key.toUpperCase())) {
+    activateKey(keyPressed);
+  }
+
+  // Gestion spéciale pour la touche Backspace
+  if (event.key === "Backspace") {
+    event.preventDefault();
+    textInput.value = textInput.value.slice(0, -1);
+    const inputEvent = new Event("input", { bubbles: true });
+    textInput.dispatchEvent(inputEvent);
+  }
+});
