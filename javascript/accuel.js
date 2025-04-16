@@ -17,6 +17,7 @@ const words = {
   ],
 };
 
+let currentDiffic
 // Variables pour le timer
 let timeLeft = 60;
 let timerInterval;
