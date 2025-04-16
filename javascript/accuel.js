@@ -64,7 +64,6 @@ function nextWordWithLoading() {
   setTimeout(() => {
     showNextWord();
     container.style.opacity = "1";
-    input.focus();
     input.style.display = "block";
     loading.style.display = "none";
   }, 500);
@@ -131,18 +130,18 @@ modeSelect.addEventListener("change", () => {
 
 // Affichage initial
 window.addEventListener("DOMContentLoaded", () => {
-  changeStylBorder(currentDifficulty);
-  resetTest(); 
-  input.focus()
+  changeStylBorder(currentDifficulty); // Génère le clavier par défaut
+  resetTest();        
 });
 
 
 //clavier visuel
-const keys = "AZERTYUIOPQSDFGHJKLMWXCVBN".split("");
+const keys = "AZERTYUIOPQSDFGHJKLMWXCVBN".split(""); // Lettres du clavier
 const keyboardDiv = document.getElementById("keyboard");
-let ignoreNextKeydown = false;
+const textInput = document.getElementById("input-field"); // Changé pour correspondre à votre champ d'entrée
+let ignoreNextKeydown = false; // Nouveau flag pour éviter les doubles entrées
 document.addEventListener("click", (event) => {
-  if (event.target !== input) {
+  if (event.target !== textInput) {
     inputField.focus();
   }
 });
@@ -153,12 +152,10 @@ function activateKey(keyPressed, fromClick = false) {
   if (keyDiv) {
     keyDiv.classList.add("active");
     if (fromClick) {
-      ignoreNextKeydown = true;
+      ignoreNextKeydown = true; // On ignore le prochain keydown
       const inputEvent = new Event("input", { bubbles: true });
-      input.value += keyPressed;
-      input.dispatchEvent(inputEvent);
-      console.log("bvdbsvb");
-      
+      textInput.value += keyPressed;
+      textInput.dispatchEvent(inputEvent);
     }
     setTimeout(() => keyDiv.classList.remove("active"), 300);
   }
@@ -172,7 +169,7 @@ function changeStylBorder(difficulty) {
   keys.forEach((letter) => {
     let keyDiv = document.createElement("div");
     keyDiv.classList= '';
-    keyDiv.classList.add(`key_${difficulty}`);
+    keyDiv.classList.add(`key_${difficulty}`); // Utilise la nouvelle difficulté
     keyDiv.textContent = letter;
     keyDiv.id = `key-${letter.toLowerCase()}`;
     keyboardDiv.appendChild(keyDiv);
