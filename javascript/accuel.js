@@ -18,9 +18,8 @@ const words = {
   ],
 };
 
-let currentDiffic
 // Variables pour le timer
-let timeLeft = 60;
+let timeLeft = 15;
 let timerInterval;
 let isPlaying = false;
 const timeDisplay = document.getElementById("time-display");
@@ -41,7 +40,7 @@ const modeSelect = document.getElementById("mode");
 // Fonction pour démarrer le timer
 function startTimer() {
   clearInterval(timerInterval);
-  timeLeft = 60;
+  timeLeft = 15;
   updateTimerDisplay();
   isPlaying = true;
   
@@ -57,7 +56,7 @@ function startTimer() {
 
 function updateTimerDisplay() {
   timeDisplay.textContent = timeLeft;
-  timeBar.style.width = `${(timeLeft / 60) * 100}%`;
+  timeBar.style.width = `${(timeLeft / 15) * 100}%`;
   
   // Changement de couleur selon le temps restant
   if (timeLeft <= 10) {
@@ -142,19 +141,25 @@ function updateAccuracy() {
   }
 }
 
+
 function resetTest() {
+  clearInterval(timerInterval); 
   wordCount = 0;
   correctChars = 0;
   totalChars = 0;
   wordCountDisplay.textContent = "0";
   accuracyDisplay.textContent = "100%";
   accuracyDisplay.style.color = "#00a8ff";
-  startTimer(); // Démarrer le timer quand on reset le test
+  isPlaying = false; 
   showNextWord();
 }
 
+
 input.addEventListener("input", () => {
-  if (!isPlaying) startTimer(); // Démarrer le timer au premier input
+  if (!isPlaying) {
+    isPlaying = true; 
+    startTimer();
+  }
   
   const word = container.textContent;
   const typed = input.value;
@@ -190,8 +195,10 @@ modeSelect.addEventListener("change", () => {
   resetTest();
 });
 
-// Affichage initial
+
 window.addEventListener("DOMContentLoaded", () => {
+  clearInterval(timerInterval);
+  isPlaying = false;
   changeStylBorder(currentDifficulty);
   resetTest();        
 });
@@ -202,11 +209,6 @@ const keyboardDiv = document.getElementById("keyboard");
 const textInput = document.getElementById("input-field");
 let ignoreNextKeydown = false;
 
-document.addEventListener("click", (event) => {
-  if (event.target !== textInput) {
-    inputField.focus();
-  }
-});
 
 function activateKey(keyPressed, fromClick = false) {
   let keyDiv = document.getElementById(`key-${keyPressed.toLowerCase()}`);
