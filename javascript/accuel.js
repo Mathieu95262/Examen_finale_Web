@@ -17,26 +17,18 @@ const words = {
   ],
 };
 
-<<<<<<< HEAD
 let currentDifficulty = "easy";
 let wordCount = 0;
 let correctChars = 0;
 let totalChars = 0;
-=======
-  // Variables pour le timer
-  let time = 20;
-  let timeInterval;
-  let isPlaying = false;
-  let timerStarted = false;
-  const timeDisplay = document.getElementById("time");
-  const timeLeftBar = document.getElementById("time-left");
 
-  const modeSelect = document.getElementById("mode");
-  const wordDisplay = document.getElementById("word-display");
-  const inputField = document.getElementById("input-field");
-  const results = document.getElementById("results");
-  const section_wordDisplay = document.querySelector(".section_word-display");
->>>>>>> 8b67a19 (Ajout d'un timer mais il y a encore des bugs sur le clavier)
+// Variables pour le timer
+let time = 20;
+let timeInterval;
+let isPlaying = false;
+let timerStarted = false;
+const timeDisplay = document.getElementById("time");
+const timeLeftBar = document.getElementById("time-left");
 
 const container = document.getElementById("word-container");
 const input = document.getElementById("input-container");
@@ -44,6 +36,11 @@ const loading = document.getElementById("loading");
 const wordCountDisplay = document.getElementById("word-count");
 const accuracyDisplay = document.getElementById("accuracy");
 const modeSelect = document.getElementById("mode");
+
+const wordDisplay = document.getElementById("word-display");
+const inputField = document.getElementById("input-field");
+const results = document.getElementById("results");
+const section_wordDisplay = document.querySelector(".section_word-display");
 
 function getRandomWord(mode) {
   const wordList = words[mode];
@@ -56,7 +53,6 @@ function displayWord(word) {
   void container.offsetWidth; // Trigger reflow
   container.classList.add("word-transition");
 
-<<<<<<< HEAD
   for (let letter of word) {
     const span = document.createElement("span");
     span.textContent = letter;
@@ -64,25 +60,29 @@ function displayWord(word) {
     container.appendChild(span);
   }
 }
-=======
-  //Initialiser le test de frappe
-  const startTest = (wordCount = 50) => {
-    wordsToType.length = 0; //effacer le mot précédent
-    wordDisplay.innerHTML = ""; //Affichage clair
-    currentWordIndex = 0;
-    startTime = null;
-    previousEndTime = null;
-    trueWords = 0;
-    falseWords = 0;
 
-    // Réinitialiser le timer
-    time = 20;
-    timeDisplay.textContent = time;
-    timeLeftBar.style.width = '100%';
-    timerStarted = false;
-    isPlaying = true;
-    inputField.readOnly = false;
->>>>>>> 8b67a19 (Ajout d'un timer mais il y a encore des bugs sur le clavier)
+// Initialiser le test de frappe
+const startTest = (wordCount = 50) => {
+  wordsToType.length = 0; // effacer le mot précédent
+  wordDisplay.innerHTML = ""; // Affichage clair
+  currentWordIndex = 0;
+  startTime = null;
+  previousEndTime = null;
+  trueWords = 0;
+  falseWords = 0;
+
+  // Réinitialiser le timer
+  time = 20;
+  timeDisplay.textContent = time;
+  timeLeftBar.style.width = '100%';
+  timerStarted = false;
+  isPlaying = true;
+  inputField.readOnly = false;
+
+  inputField.value = "";
+  results.textContent = "";
+  inputField.focus();
+};
 
 function showNextWord() {
   displayWord(getRandomWord(currentDifficulty));
@@ -105,10 +105,8 @@ function nextWordWithLoading() {
   }, 500);
 }
 
-<<<<<<< HEAD
 function updateAccuracy() {
-  const accuracy =
-    totalChars > 0 ? Math.round((correctChars / totalChars) * 100) : 100;
+  const accuracy = totalChars > 0 ? Math.round((correctChars / totalChars) * 100) : 100;
   accuracyDisplay.textContent = `${accuracy}%`;
 
   if (accuracy >= 90) {
@@ -129,47 +127,36 @@ function resetTest() {
   accuracyDisplay.style.color = "#00a8ff";
   showNextWord();
 }
-=======
-    inputField.value = "";
-    results.textContent = "";
-    inputField.focus();
-  };
 
-  // Démarrer le minuteur lorsque l'utilisateur commence à taper
-  const startTimer = () => {
-    if (!timerStarted) {
-      timerStarted = true;
-      clearInterval(timeInterval);
-      timeInterval = setInterval(updateTimer, 1000);
-    }
-  };
-
-  function updateTimer() {
-    time--;
-    timeDisplay.textContent = time;
-    timeLeftBar.style.width = (time / 20) * 100 + '%';
-    
-    if (time <= 0) {
-      endGame();
-    }
-  }
-
-  function endGame() {
+// Démarrer le minuteur lorsque l'utilisateur commence à taper
+const startTimer = () => {
+  if (!timerStarted) {
+    timerStarted = true;
     clearInterval(timeInterval);
-    isPlaying = false;
-    inputField.readOnly = true;
-    
-    document.getElementById("score-final").style.height = "40rem";
-    document.getElementById("score-final").style.width = "40rem";
-    document.getElementById("score-final").style.padding = "30px";
-    document.getElementById("score-de-jeux").textContent = `Score: ${trueWords} mots corrects`;
+    timeInterval = setInterval(updateTimer, 1000);
   }
+};
 
-  // Calculer et renvoyer les mots par minute et la précision
-  const getCurrentStats = () => {
-    const elapsedTime = (Date.now() - previousEndTime) / 1000;
-    const wpm = wordsToType[currentWordIndex].length / 5 / (elapsedTime / 20); // WPM
->>>>>>> 8b67a19 (Ajout d'un timer mais il y a encore des bugs sur le clavier)
+function updateTimer() {
+  time--;
+  timeDisplay.textContent = time;
+  timeLeftBar.style.width = (time / 20) * 100 + '%';
+
+  if (time <= 0) {
+    endGame();
+  }
+}
+
+function endGame() {
+  clearInterval(timeInterval);
+  isPlaying = false;
+  inputField.readOnly = true;
+
+  document.getElementById("score-final").style.height = "40rem";
+  document.getElementById("score-final").style.width = "40rem";
+  document.getElementById("score-final").style.padding = "30px";
+  document.getElementById("score-de-jeux").textContent = `Score: ${trueWords} mots corrects`;
+}
 
 input.addEventListener("input", () => {
   const word = container.textContent;
@@ -179,7 +166,6 @@ input.addEventListener("input", () => {
   // Réinitialiser les classes
   spans.forEach((span) => (span.className = "letter"));
 
-<<<<<<< HEAD
   // Vérifier chaque caractère
   for (let i = 0; i < typed.length; i++) {
     if (i >= word.length) break;
@@ -210,20 +196,19 @@ modeSelect.addEventListener("change", () => {
 // Affichage initial
 resetTest();
 
-
-
-//clavier visuel
+// Clavier visuel
 const keys = "AZERTYUIOPQSDFGHJKLMWXCVBN".split(""); // Lettres du clavier
 const keyboardDiv = document.getElementById("keyboard");
 const textInput = document.getElementById("input-field"); // Changé pour correspondre à votre champ d'entrée
 let ignoreNextKeydown = false; // Nouveau flag pour éviter les doubles entrées
+
 document.addEventListener("click", (event) => {
   if (event.target !== textInput) {
     inputField.focus();
   }
 });
 
-//pour activer une touche et ajouter la lettre dans l'input
+// pour activer une touche et ajouter la lettre dans l'input
 function activateKey(keyPressed, fromClick = false) {
   let keyDiv = document.getElementById(`key-${keyPressed.toLowerCase()}`);
   if (keyDiv) {
@@ -239,13 +224,12 @@ function activateKey(keyPressed, fromClick = false) {
 }
 
 // Générer les touches du clavier visuel
-
 function changeStylBorder(difficulty) {
   keyboardDiv.innerHTML = "";
 
   keys.forEach((letter) => {
     let keyDiv = document.createElement("div");
-    keyDiv.classList= '';
+    keyDiv.classList = '';
     keyDiv.classList.add(`key_${difficulty}`); // Utilise la nouvelle difficulté
     keyDiv.textContent = letter;
     keyDiv.id = `key-${letter.toLowerCase()}`;
@@ -257,7 +241,6 @@ function changeStylBorder(difficulty) {
     });
   });
 }
-
 
 // Écouteur d'événements pour détecter les touches du clavier physique
 document.addEventListener("keydown", (event) => {
@@ -279,79 +262,3 @@ document.addEventListener("keydown", (event) => {
     textInput.dispatchEvent(inputEvent);
   }
 });
-=======
-    return { wpm: wpm.toFixed(2), accuracy: accuracy.toFixed(2) };
-  };
-
-  // Passer au mot suivant et mettre à jour les statistiques uniquement en appuyant sur la barre d'espace
-  function updateWord(event) {
-    if (event.key === "Backspace") {
-      event.preventDefault();
-    }
-    
-    // Démarrer le timer au premier caractère tapé
-    if (!timerStarted && inputField.value.length === 0 && event.key !== "Backspace") {
-      startTimer();
-    }
-
-    if (event.key === "Enter") {
-      // Vérifiez si c'est vrai
-      if (inputField.value.trim() === wordsToType[currentWordIndex]) {
-        if (!previousEndTime) previousEndTime = Date.now();
-
-        // Ajout temps bonus selon difficulté
-        const mode = modeSelect.value;
-        if (mode === 'easy') time += 2;
-        else if (mode === 'medium') time += 3;
-        else time += 5;
-
-        const { wpm, accuracy } = getCurrentStats();
-        trueWords++;
-      } else {
-        const { wpm, accuracy } = getCurrentStats();
-        falseWords++;
-      }
-
-      currentWordIndex++;
-      previousEndTime = Date.now();
-      highlightNextWord();
-      inputField.value = "";
-      event.preventDefault();
-    }
-  }
-
-  // Highlight the current word in red
-  const highlightNextWord = () => {
-    const wordElements = wordDisplay.children;
-
-    if (currentWordIndex < wordElements.length) {
-      if (currentWordIndex > 0) {
-        const previous = wordElements[currentWordIndex - 1];
-        previous.classList.remove("highlighted");
-        previous.classList.add("faded");
-      }
-
-      const current = wordElements[currentWordIndex];
-      current.style.color = "red";
-      current.style.position = "absolute";
-      current.style.top = "16px";
-    } else {
-      endGame();
-    }
-  };
-
-  // Event listeners
-  // Attach `updateWord` to `keydown` instead of `input`
-  inputField.addEventListener("keydown", updateWord);
-  modeSelect.addEventListener("change", () => startTest());
-  document.getElementById("option-restart").addEventListener("click", () => {
-    document.getElementById("score-final").style.height = "0";
-    document.getElementById("score-final").style.width = "0";
-    document.getElementById("score-final").style.padding = "0";
-    startTest();
-  });
-
-  // Start the test
-  startTest();
-});
->>>>>>> 8b67a19 (Ajout d'un timer mais il y a encore des bugs sur le clavier)

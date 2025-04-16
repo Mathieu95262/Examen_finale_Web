@@ -306,11 +306,11 @@ input {
 .incorrect {
   color: red;
 }
-<<<<<<< HEAD
+
 #loading {
   opacity: 0;
 }
-=======
+
 
 .timer-display {
   position: absolute;
@@ -339,4 +339,3 @@ input {
   transition: width 0.1s linear;
 }
 
->>>>>>> 8b67a19 (Ajout d'un timer mais il y a encore des bugs sur le clavier)
