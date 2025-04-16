@@ -64,6 +64,7 @@ function nextWordWithLoading() {
   setTimeout(() => {
     showNextWord();
     container.style.opacity = "1";
+    input.focus();
     input.style.display = "block";
     loading.style.display = "none";
   }, 500);
@@ -116,7 +117,7 @@ input.addEventListener("input", () => {
 
   updateAccuracy();
 
-  // Mot complet (vérifie si la longueur correspond et si le dernier caractère est correct)
+  // pour passer au mot suivant quand on a finie de taper le precedent
   if (typed.length === word.length) {
     nextWordWithLoading();
   }
@@ -129,17 +130,19 @@ modeSelect.addEventListener("change", () => {
 });
 
 // Affichage initial
-resetTest();
-
+window.addEventListener("DOMContentLoaded", () => {
+  changeStylBorder(currentDifficulty);
+  resetTest(); 
+  input.focus()
+});
 
 
 //clavier visuel
-const keys = "AZERTYUIOPQSDFGHJKLMWXCVBN".split(""); // Lettres du clavier
+const keys = "AZERTYUIOPQSDFGHJKLMWXCVBN".split("");
 const keyboardDiv = document.getElementById("keyboard");
-const textInput = document.getElementById("input-field"); // Changé pour correspondre à votre champ d'entrée
-let ignoreNextKeydown = false; // Nouveau flag pour éviter les doubles entrées
+let ignoreNextKeydown = false;
 document.addEventListener("click", (event) => {
-  if (event.target !== textInput) {
+  if (event.target !== input) {
     inputField.focus();
   }
 });
@@ -150,10 +153,12 @@ function activateKey(keyPressed, fromClick = false) {
   if (keyDiv) {
     keyDiv.classList.add("active");
     if (fromClick) {
-      ignoreNextKeydown = true; // On ignore le prochain keydown
+      ignoreNextKeydown = true;
       const inputEvent = new Event("input", { bubbles: true });
-      textInput.value += keyPressed;
-      textInput.dispatchEvent(inputEvent);
+      input.value += keyPressed;
+      input.dispatchEvent(inputEvent);
+      console.log("bvdbsvb");
+      
     }
     setTimeout(() => keyDiv.classList.remove("active"), 300);
   }
@@ -167,7 +172,7 @@ function changeStylBorder(difficulty) {
   keys.forEach((letter) => {
     let keyDiv = document.createElement("div");
     keyDiv.classList= '';
-    keyDiv.classList.add(`key_${difficulty}`); // Utilise la nouvelle difficulté
+    keyDiv.classList.add(`key_${difficulty}`);
     keyDiv.textContent = letter;
     keyDiv.id = `key-${letter.toLowerCase()}`;
     keyboardDiv.appendChild(keyDiv);
