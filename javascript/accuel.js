@@ -6,6 +6,7 @@
 
 // Données de mots selon le niveau
 const words = {
+<<<<<<< HEAD
   easy: [
     "apple", "banana", "grape", "orange", "cherry",
     "lemon", "peach", "pear", "plum", "melon",
@@ -22,6 +23,33 @@ const words = {
     "transcendental", "cryptography", "implementation", "configuration",
     "parallelism", "decentralized", "approximation",
   ],
+=======
+    easy: [
+      "apple", "banana", "grape", "orange", "cherry",
+      "lemon", "peach", "pear", "plum", "melon",
+      "bread", "chair", "table", "water", "cloud",
+      "sun", "moon", "star", "rain", "snow",
+      "leaf", "branch", "tree", "forest", "mountain",
+      "cat", "dog", "fish", "bird", "rabbit"
+    ],
+    medium: [
+      "keyboard", "monitor", "printer", "charger", "battery",
+      "window", "folder", "object", "browser", "cursor",
+      "laptop", "button", "screen", "scroll", "tablet",
+      "website", "database", "framework", "server", "network",
+      "algorithm", "protocol", "function", "variable", "debugger",
+      "monitoring", "interface", "component", "interface", "sandbox"
+    ],
+    hard: [
+      "synchronize", "complicated", "development", "extravagant",
+      "misconception", "hypothesis", "architecture", "multithreaded",
+      "transcendental", "cryptography", "implementation", "configuration",
+      "parallelism", "decentralized", "approximation",
+      "asynchronous", "polymorphism", "encapsulation", "microservices",
+      "virtualization", "multithreading", "abstraction", "refactoring",
+      "distributed", "optimization", "framework", "serialization", "concurrency"
+    ]  
+>>>>>>> 1ba6cde4c338d24c94a01106950206700ff1ded0
 };
 
 const container = document.getElementById("word-container");
@@ -35,6 +63,8 @@ const timeBar = document.getElementById("time-bar");
 const pngRigolo = document.getElementById("mode_img");
 const wpmDisplay = document.getElementById("wpn");
 const objectifs = { easy: 20, medium: 50, hard: 100 };
+
+const objectifs = { easy: 15, medium: 50, hard: 100 }; // Objectifs par niveau
 
 // valeur initiale
 let startTime;
@@ -93,6 +123,10 @@ function endGame() {
   isPlaying = false;
   input.readOnly = true;
 
+<<<<<<< HEAD
+=======
+  // calculer WPM final
+>>>>>>> 1ba6cde4c338d24c94a01106950206700ff1ded0
   const minutesElapsed = (Date.now() - startTime) / 60000;
   const finalWPM = Math.round(totalWordsCompleted / minutesElapsed);
 
@@ -140,8 +174,12 @@ function endSuccess() {
   isPlaying = false;
   input.readOnly = true;
 
+<<<<<<< HEAD
   // Affiche la fenêtre Bravo avec l'objectif atteint
   document.getElementById("bravo-mots-corrects").textContent = `Mots corrects : ${motsCorrects}/${objectifs[currentDifficulty]}`;
+=======
+  document.getElementById("bravo-mots-corrects").textContent = `Mots corrects : ${motsCorrects}`;
+>>>>>>> 1ba6cde4c338d24c94a01106950206700ff1ded0
   document.getElementById("bravo-mots-faux").textContent = `Mots incorrects : ${motsIncorrects}`;
   document.getElementById("successWindow").style.display = "flex";
 }
@@ -201,8 +239,13 @@ function resetTest() {
   motsCorrects = 0; 
   motsIncorrects = 0; 
   totalWordsCompleted = 0;
+<<<<<<< HEAD
   timeLeft = 20;
   
+=======
+  motsCorrects = 0;
+  motsIncorrects = 0;
+>>>>>>> 1ba6cde4c338d24c94a01106950206700ff1ded0
   wordCountDisplay.textContent = "0";
   accuracyDisplay.textContent = "100%";
   wpmDisplay.textContent = "0";
@@ -215,6 +258,7 @@ function resetTest() {
 }
 
 input.addEventListener("input", () => {
+  console.log("Difficulté actuelle :", currentDifficulty);
   if (!isPlaying) {
     isPlaying = true;
     startTimer();
@@ -246,6 +290,7 @@ input.addEventListener("input", () => {
   if (typed.length === word.length) {
     const isCorrect = checkCompletedWord();
 
+<<<<<<< HEAD
     if (isCorrect && motsCorrects < objectifs[currentDifficulty]) {
       //temps bonus seulement si l'objectif n'est pas encore atteint
       timeLeft +=
@@ -258,6 +303,25 @@ input.addEventListener("input", () => {
 
     // Passe au mot suivant seulement si l'objectif n'est pas atteint
     if (motsCorrects < objectifs[currentDifficulty]) {
+=======
+    if (isCorrect === true) {
+      motsCorrects++;
+      //temps bonus
+      timeLeft += currentDifficulty === "easy" ? 2 :
+                  currentDifficulty === "medium" ? 3 : 5;
+
+      if (timeLeft > 15) timeLeft = 15;
+      updateTimerDisplay();
+
+      if (motsCorrects >= objectifs[currentDifficulty]) {
+        console.log("Objectif atteint !");
+        endSuccess();
+      } else {
+        nextWordWithLoading();
+      }
+    } else if (isCorrect === false) {
+      motsIncorrects++;
+>>>>>>> 1ba6cde4c338d24c94a01106950206700ff1ded0
       nextWordWithLoading();
     }
   }
@@ -270,11 +334,16 @@ function checkCompletedWord() {
   // Vérifie si le mot est complet et correct
   if (typedWord.length === currentWord.length) {
     if (typedWord === currentWord) {
+<<<<<<< HEAD
       motsCorrects++;
       console.log(`Mots corrects: ${motsCorrects}/${objectifs[currentDifficulty]}`); // Debug
       return true;
     } else {
       motsIncorrects++;
+=======
+      return true;
+    } else {
+>>>>>>> 1ba6cde4c338d24c94a01106950206700ff1ded0
       return false;
     }
   }
