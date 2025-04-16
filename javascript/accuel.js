@@ -17,6 +17,13 @@ const words = {
   ],
 };
 
+// Variables pour le timer
+let timeLeft = 60;
+let timerInterval;
+let isPlaying = false;
+const timeDisplay = document.getElementById("time-display");
+const timeBar = document.getElementById("time-bar");
+
 let currentDifficulty = "easy";
 let wordCount = 0;
 let correctChars = 0;
@@ -28,6 +35,49 @@ const loading = document.getElementById("loading");
 const wordCountDisplay = document.getElementById("word-count");
 const accuracyDisplay = document.getElementById("accuracy");
 const modeSelect = document.getElementById("mode");
+
+// Fonction pour démarrer le timer
+function startTimer() {
+  clearInterval(timerInterval);
+  timeLeft = 60;
+  updateTimerDisplay();
+  isPlaying = true;
+  
+  timerInterval = setInterval(() => {
+    timeLeft--;
+    updateTimerDisplay();
+    
+    if (timeLeft <= 0) {
+      endGame();
+    }
+  }, 1000);
+}
+
+function updateTimerDisplay() {
+  timeDisplay.textContent = timeLeft;
+  timeBar.style.width = `${(timeLeft / 60) * 100}%`;
+  
+  // Changement de couleur selon le temps restant
+  if (timeLeft <= 10) {
+    timeDisplay.style.color = "#ff0000";
+    timeBar.style.backgroundColor = "#ff0000";
+  } else if (timeLeft <= 20) {
+    timeDisplay.style.color = "#ff9900";
+    timeBar.style.backgroundColor = "#ff9900";
+  } else {
+    timeDisplay.style.color = "#00ff44";
+    timeBar.style.backgroundColor = "#00ff44";
+  }
+}
+
+function endGame() {
+  clearInterval(timerInterval);
+  isPlaying = false;
+  input.readOnly = true;
+  
+  // Afficher le score final
+  alert(`Temps écoulé !\nMots tapés: ${wordCount}\nPrécision: ${accuracyDisplay.textContent}`);
+}
 
 function getRandomWord(mode) {
   const wordList = words[mode];
@@ -54,6 +104,13 @@ function showNextWord() {
   input.focus();
   wordCount++;
   wordCountDisplay.textContent = wordCount;
+  
+  // Ajout de temps bonus pour chaque nouveau mot
+  if (isPlaying) {
+    timeLeft += currentDifficulty === "easy" ? 2 : 
+ currentDifficulty === "medium" ? 3 : 5;
+    updateTimerDisplay();
+  }
 }
 
 function nextWordWithLoading() {
@@ -90,10 +147,13 @@ function resetTest() {
   wordCountDisplay.textContent = "0";
   accuracyDisplay.textContent = "100%";
   accuracyDisplay.style.color = "#00a8ff";
+  startTimer(); // Démarrer le timer quand on reset le test
   showNextWord();
 }
 
 input.addEventListener("input", () => {
+  if (!isPlaying) startTimer(); // Démarrer le timer au premier input
+  
   const word = container.textContent;
   const typed = input.value;
   const spans = container.querySelectorAll(".letter");
@@ -116,7 +176,7 @@ input.addEventListener("input", () => {
 
   updateAccuracy();
 
-  // pour passer au mot suivant quand on a finie de taper le precedent
+  // Passer au mot suivant quand on a fini de taper le précédent
   if (typed.length === word.length) {
     nextWordWithLoading();
   }
@@ -130,29 +190,28 @@ modeSelect.addEventListener("change", () => {
 
 // Affichage initial
 window.addEventListener("DOMContentLoaded", () => {
-  changeStylBorder(currentDifficulty); // Génère le clavier par défaut
+  changeStylBorder(currentDifficulty);
   resetTest();        
 });
 
-
-//clavier visuel
-const keys = "AZERTYUIOPQSDFGHJKLMWXCVBN".split(""); // Lettres du clavier
+// Clavier visuel
+const keys = "AZERTYUIOPQSDFGHJKLMWXCVBN".split("");
 const keyboardDiv = document.getElementById("keyboard");
-const textInput = document.getElementById("input-field"); // Changé pour correspondre à votre champ d'entrée
-let ignoreNextKeydown = false; // Nouveau flag pour éviter les doubles entrées
+const textInput = document.getElementById("input-field");
+let ignoreNextKeydown = false;
+
 document.addEventListener("click", (event) => {
   if (event.target !== textInput) {
     inputField.focus();
   }
 });
 
-//pour activer une touche et ajouter la lettre dans l'input
 function activateKey(keyPressed, fromClick = false) {
   let keyDiv = document.getElementById(`key-${keyPressed.toLowerCase()}`);
   if (keyDiv) {
     keyDiv.classList.add("active");
     if (fromClick) {
-      ignoreNextKeydown = true; // On ignore le prochain keydown
+      ignoreNextKeydown = true;
       const inputEvent = new Event("input", { bubbles: true });
       textInput.value += keyPressed;
       textInput.dispatchEvent(inputEvent);
@@ -161,15 +220,13 @@ function activateKey(keyPressed, fromClick = false) {
   }
 }
 
-// Générer les touches du clavier visuel
-
 function changeStylBorder(difficulty) {
   keyboardDiv.innerHTML = "";
 
   keys.forEach((letter) => {
     let keyDiv = document.createElement("div");
     keyDiv.classList= '';
-    keyDiv.classList.add(`key_${difficulty}`); // Utilise la nouvelle difficulté
+    keyDiv.classList.add(`key_${difficulty}`);
     keyDiv.textContent = letter;
     keyDiv.id = `key-${letter.toLowerCase()}`;
     keyboardDiv.appendChild(keyDiv);
@@ -181,8 +238,6 @@ function changeStylBorder(difficulty) {
   });
 }
 
-
-// Écouteur d'événements pour détecter les touches du clavier physique
 document.addEventListener("keydown", (event) => {
   if (ignoreNextKeydown) {
     ignoreNextKeydown = false;
@@ -194,7 +249,6 @@ document.addEventListener("keydown", (event) => {
     activateKey(keyPressed);
   }
 
-  // Gestion spéciale pour la touche Backspace
   if (event.key === "Backspace") {
     event.preventDefault();
     textInput.value = textInput.value.slice(0, -1);
