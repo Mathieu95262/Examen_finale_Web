@@ -6,14 +6,15 @@
 
 // Données de mots selon le niveau
 const words = {
-  easy: ["apple", "banana", "grape", "orange", "cherry"],
-  medium: ["keyboard", "monitor", "printer", "charger", "battery"],
+  easy: ["apple", "banana", "grape", "orange", "cherry",
+    "lemon", "peach", "pear", "plum", "melon",
+    "bread", "chair", "table", "water", "cloud"],
+  medium: ["keyboard", "monitor", "printer", "charger", "battery",
+    "window", "folder", "object", "browser", "cursor",
+    "laptop", "button", "screen", "scroll", "tablet"],
   hard: [
-    "synchronize",
-    "complicated",
-    "development",
-    "extravagant",
-    "misconception",
+    "synchronize","complicated","development","extravagant","misconception","hypothesis", "architecture", "multithreaded", "transcendental", "cryptography",
+    "implementation", "configuration", "parallelism", "decentralized", "approximation"
   ],
 };
 
@@ -109,7 +110,7 @@ function showNextWord() {
   // Ajout de temps bonus pour chaque nouveau mot
   if (isPlaying) {
     timeLeft += currentDifficulty === "easy" ? 2 : 
- currentDifficulty === "medium" ? 3 : 5;
+    currentDifficulty === "medium" ? 3 : 5;
     updateTimerDisplay();
   }
 }
