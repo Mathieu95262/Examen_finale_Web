@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Typing Test</title>
+    <link rel="stylesheet" href="css/accueil.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap" rel="stylesheet">
+   <link href='https://fonts.googleapis.com/css?family=Audiowide' rel='stylesheet'>
+</head>
+
+<body>
+    
+      <nav id="nav_bar">
+
+      </nav>
+  <div class="mode-selector">  
+    <select id="mode">
+      <option value="easy">Facile</option>
+      <option value="medium">Moyen</option>
+      <option value="hard">Difficile</option>
+    </select>
+  </div>
+  <div class="timer-container">
+    <div id="time-display">15</div>
+    <div class="time-bar-container">
+      <div id="time-bar" class="time-bar"></div>
+    </div>
+  </div>
+
+  <div id="main-of-game">
+    <div id="word-container" class="word-transition"></div>
+  <input type="text" id="input-container" placeholder="Commencez à taper..." autofocus />
+  <div id="loading">Chargement du mot suivant...</div>
+
+  <div class="resultat-containt">
+    <div class="resultat">
+      <div>Mots</div>
+      <div class="resultat-value" id="word-count">0</div>
+    </div>
+    <div class="resultat">
+      <div>Précision</div>
+      <div class="resultat-value" id="accuracy">100%</div>
+    </div>
+  </div>
+<div class="keyboard" id="keyboard">
+    <!-- clavier generer avec js -->
+    </div>
+  </div>
+    <!-- <script src="javascript/clavier.js"></script> -->
+    <script src="javascript/accuel.js"></script>
+</body>
+
+</html>
