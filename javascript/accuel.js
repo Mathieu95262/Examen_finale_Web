@@ -117,14 +117,14 @@ function showNextWord() {
 function nextWordWithLoading() {
   container.style.opacity = "0";
   input.style.display = "none";
-  loading.style.display = "block";
+  loading.style.opacity = "1";
 
   setTimeout(() => {
     showNextWord();
     container.style.opacity = "1";
     input.style.display = "block";
-    loading.style.display = "none";
-  }, 500);
+    loading.style.opacity = "0";
+  }, 600);
 }
 
 function updateAccuracy() {
@@ -177,7 +177,7 @@ input.addEventListener("input", () => {
       spans[i].classList.add("correct");
       correctChars++;
     } else {
-      spans[i].classList.add("wrong");
+      spans[i].classList.add("incorrect");
     }
   }
 

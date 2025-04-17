@@ -11,6 +11,7 @@
   --cool_color: cyan;
 }
 body {
+  padding: 5rem;
   display: flex;
   flex-direction: column;
   color: var(--second_color);
@@ -33,6 +34,7 @@ h1 {
         font-family: 'Audiowide' ,sans-serif;
         font-size: 5rem;
         cursor: none;
+        color: #000;
 }
 h1::after {
   content: "";
@@ -40,7 +42,7 @@ h1::after {
   height: 5rem;
   width: 5px;
   margin-left: 10px;
-  background: #ffffff;
+  background: #000;
   animation: cursor 1s infinite;
 }
 @keyframes cursor {
@@ -55,20 +57,45 @@ h1::after {
   }
 }
 #link_play {
-    position: absolute;
-    bottom: 40%;
     background-color: var(--cool_color);
     color: var(--background_color);
     text-decoration: none;
     font-weight: 600;
-    padding: 2rem 5rem;
+    padding: 1rem 4rem;
+    margin: 20px;
     font-size: 3rem;
     box-shadow:0px 0px 10px  var(--cool_color);
     border-radius: 20px;
     transition: 0.5s;
 }
 #link_play:hover {
-    transform: scale(1.1);
+    transform: scale(0);
      box-shadow:0px 0px 20px  var(--cool_color);
      transition: 0.5sfx;
+}
+.content_link {
+     position: absolute;
+    bottom: 10%;
+    height: 50%;
+    width: 40%;
+    border: 2px solid red;
+}
+#choice_link {
+  display: flex;
+  align-items:center ;
+  margin-top: 4rem;
+  color: #000;
+  font-family: Arial, Helvetica, sans-serif
+}
+#choice_link::before {
+  content: '';
+  border: 1px solid rgb(48, 47, 47);
+  width: 5rem;
+  margin-right: 3px;
+}
+#choice_link::after {
+  content: '';
+  border: 1px solid rgb(48, 47, 47);
+  width: 5rem;
+  margin-left: 3px;
 }
