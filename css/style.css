@@ -1,5 +1,7 @@
 * {
   box-sizing: border-box;
+  margin: 0;
+ 
 }
 :root {
   --primary_color: #222;
@@ -11,13 +13,12 @@
 body {
   display: flex;
   flex-direction: column;
-  height: 100vh;
   color: var(--second_color);
   font-family: "Audiowide", sans-serif;
-  scrollbar-width: 0;
   height: 100%;
   width: 100%;
   overflow: hidden; 
+  margin: 0;
 }
 #bg-video {
   position: fixed;

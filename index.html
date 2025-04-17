@@ -12,15 +12,10 @@
 
 <body>
     
-        <h1>Typing Test</h1>
-        <!-- <div id="countdown-contener">
-            <div class="countdown-semicircle"></div>
-            <div class="countdown-semicircle"></div>
-            <div class="countdown-semicircle"></div>
-            <div class="countdown-outermost-circle"></div>
-        </div> -->
-        <div class="mode-selector">
-    <label for="mode">Mode :</label>
+      <nav id="nav_bar">
+
+      </nav>
+  <div class="mode-selector">  
     <select id="mode">
       <option value="easy">Facile</option>
       <option value="medium">Moyen</option>
@@ -34,7 +29,8 @@
     </div>
   </div>
 
-  <div id="word-container" class="word-transition"></div>
+  <div id="main-of-game">
+    <div id="word-container" class="word-transition"></div>
   <input type="text" id="input-container" placeholder="Commencez à taper..." autofocus />
   <div id="loading">Chargement du mot suivant...</div>
 
@@ -51,6 +47,7 @@
 <div class="keyboard" id="keyboard">
     <!-- clavier generer avec js -->
     </div>
+  </div>
     <!-- <script src="javascript/clavier.js"></script> -->
     <script src="javascript/accuel.js"></script>
 </body>

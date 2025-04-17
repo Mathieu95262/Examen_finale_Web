@@ -1,5 +1,6 @@
 * {
   box-sizing: border-box;
+  margin: 0;
 }
 :root {
   --primary_color: #222;
@@ -23,23 +24,34 @@ body {
   font-family: "Audiowide", sans-serif;
   height: 100vh;
   width: 100%;
-  overflow: hidden;
+  /* overflow: hidden; */
 }
-#navigation {
+#nav_bar {
   position: fixed;
   top: 0;
-  height: 10%;
+  height: 5rem;
   width: 100%;
   background-color: #ffe601;
 }
-
+#main-of-game {
+  margin-top: 10%;
+  border: 2px solid red;
+  overflow: hidden;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
 .mode-selector {
-  position: absolute;
+  position: fixed;
+  top: 5rem;
   left: 0;
-  top: 0;
   background-color: green;
   padding: 1.5rem 2rem;
   margin: auto;
+}
+option{
+  font-weight: 900;
 }
 
 input {
@@ -133,6 +145,8 @@ input {
 
 .word-transition {
   animation: fadeIn 0.5s ease-out;
+    
+    
 }
 .active {
   background: cyan;
@@ -144,46 +158,6 @@ input {
 }
 
 /*pour le compte a rebour */
-#countdown-contener {
-  position: absolute;
-  right: 1rem;
-  top: 1rem;
-  font-size: xx-large;
-  height: 6rem;
-  width: 6rem;
-  border-radius: 50%;
-  background-color: #ffffff;
-  z-index: -4;
-  padding: 0.3%;
-  /* overflow: hidden; */
-}
-.countdown-semicircle {
-  width: 50%;
-  height: 100%;
-  position: absolute;
-  top: 0;
-  left: 0;
-}
-.countdown-semicircle:nth-child(1) {
-  background-color: #ff0101;
-  z-index: -3;
-}
-.countdown-semicircle:nth-child(2) {
-  background-color: cyan;
-  z-index: -2;
-}
-.countdown-semicircle:nth-child(3) {
-  background-color: #ffffff;
-  z-index: -1;
-  display: none;
-}
-.countdown-outermost-circle {
-  background-color: #fc018b;
-  width: 100%;
-  height: 100%;
-  border-radius: 50%;
-  z-index: 5;
-}
 
 .letter {
   display: inline-block;
@@ -198,14 +172,6 @@ input {
   font-family: "Orbitron", sans-serif;
   transition: transform 0.3s ease, color 0.3s ease, text-shadow 0.3s ease;
   font-family: "Orbitron", sans-serif;
-}
-#section_word-display {
-  border: 2px solid red;
-  color: #fff;
-  height: 5rem;
-  margin-top: 3rem;
-  margin-bottom: -3rem;
-  position: relative;
 }
 .resultat-containt{
   display: flex;
