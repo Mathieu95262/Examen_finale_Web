@@ -140,8 +140,8 @@ function updateAccuracy() {
   accuracyDisplay.textContent = `${accuracy}%`;
 
   if (accuracy >= 90) {
-    accuracyDisplay.style.color = "#00ff44";
-  } else if (accuracy >= 70) {
+    accuracyDisplay.style.color = "#04f740";
+  } else if (accuracy >= 50) {
     accuracyDisplay.style.color = "#ffcc00";
   } else {
     accuracyDisplay.style.color = "#ff3333";
@@ -156,7 +156,7 @@ function resetTest() {
   totalChars = 0;
   wordCountDisplay.textContent = "0";
   accuracyDisplay.textContent = "100%";
-  accuracyDisplay.style.color = "#00a8ff";
+  accuracyDisplay.style.color = "#04f740";
   isPlaying = false;
   showNextWord();
   setTimeout(() => input.focus(), 100);
