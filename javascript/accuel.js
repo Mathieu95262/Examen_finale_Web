@@ -26,6 +26,7 @@ const accuracyDisplay = document.getElementById("accuracy");
 const modeSelect = document.getElementById("mode");
 const timeDisplay = document.getElementById("time-display");
 const timeBar = document.getElementById("time-bar");
+const pngRigolo = document.getElementById("mode_img");
 
 // valeur initiale
 //pour le timer
@@ -51,7 +52,7 @@ function startTimer() {
     timeLeft--;
     updateTimerDisplay();
 
-    if (timeLeft <= 0) {
+    if (timeLeft < 0) {
       clearInterval(timerInterval);
       endGame();
     }
@@ -200,6 +201,7 @@ input.addEventListener("input", () => {
 modeSelect.addEventListener("change", () => {
   currentDifficulty = modeSelect.value;
   changeStylBorder(currentDifficulty);
+  changePng(currentDifficulty)
   resetTest();
 });
 
@@ -208,6 +210,7 @@ window.addEventListener("DOMContentLoaded", () => {
   clearInterval(timerInterval);
   isPlaying = false;
   changeStylBorder(currentDifficulty);
+  changePng(currentDifficulty);
   resetTest();
   input.focus();               
 });
@@ -249,6 +252,9 @@ function changeStylBorder(difficulty) {
       activateKey(letter.toLowerCase(), true);
     });
   });
+}
+function changePng(difficulty) {
+   pngRigolo.src = `image/Smiling_${difficulty}.png`;
 }
 
 document.addEventListener("keydown", (event) => {

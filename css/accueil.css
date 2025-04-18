@@ -31,7 +31,12 @@ body {
   top: 0;
   height: 5rem;
   width: 100%;
-  background-color: #ffe601;
+  background-color: #6f01ff;
+}
+.logo_entreprise {
+  margin-left: 2%;
+  width: 10%;
+  height: 100%;
 }
 #main-of-game {
   position: relative;
@@ -110,14 +115,49 @@ body {
 }
 .mode-selector {
   position: fixed;
-  top: 5rem;
-  left: 0;
-  background-color: green;
+  top: 5.3rem;
+  left: 0.3rem;
+  display: flex;
+  align-items: center;
+  background-color: #808080;
   padding: 1.5rem 2rem;
   margin: auto;
+  clip-path: polygon(
+    15px 0%,
+    100% 0%,
+    100% 70%,
+    calc(100% - 15px) 100%,
+    0 100%,
+    0% 30%
+  );
+  gap: 15px;
+}
+#mode_img {
+  position: absolute;
+  left: 1rem;
+  width: 50px;
+  height: 50px;
+}
+#mode{
+  font-size: 2rem;
+  appearance: none;
+  -webkit-appearance: none;
+  background-color: #ffffff;
+  background-image: url(../image/fleche.png);
+  background-repeat: no-repeat;
+  background-position: right;
+  width:210px;
+  outline: none;
+  border: none;
+  font-family: "Audiowide", sans-serif;
+  font-size: 2rem;
+  text-align: center;
+  padding-left: 10px;
 }
 option {
-  font-weight: 900;
+  position: absolute;
+  top: 0;
+  left: 0;
 }
 
 input {
@@ -222,8 +262,6 @@ input {
   width: 105px;
 }
 
-/*pour le compte a rebour */
-
 .letter {
   display: inline-block;
   margin: 0 2px;
@@ -251,10 +289,10 @@ input {
   color: #fffb00;
   position: absolute;
   background-color: #003007;
-  height: 0rem; /* 40rem valeur quand le score doit aparaitre*/
+  height: 0rem; /* 40rem */
   width: 0rem; /* 40rem  valeur quand le score doit aparaitre*/
   overflow: hidden;
-  padding: 0px; /* 30px  valeur quand le score doit aparaitre*/
+  padding: 0px; /* 30px*/
   text-align: center;
   font-family: "Orbitron", sans-serif;
 }
@@ -354,27 +392,11 @@ input {
   font-size: 1.5rem;
   color: white;
 }
-
-.time-progress {
-  width: 100%;
-  height: 8px;
-  background-color: #333;
-  border-radius: 4px;
-  margin-top: 5px;
-}
-
-.time-left {
-  height: 100%;
-  background-color: cyan;
-  width: 100%;
-  transition: width 0.1s linear;
-}
-
 .timer-container {
   position: absolute;
   top: 5rem;
-  left: 20%;
-  right: 20%;
+  left: 25%;
+  right: 25%;
   padding: 10px;
   border-radius: 5px;
   color: white;

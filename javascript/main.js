@@ -1,5 +1,5 @@
 const title = document.querySelector("h1");
-const words = ["BIENVENUE", "SUR", "TYPING TEST"];
+const words = ["BIENVENUE", "SUR", "RIBLY_TAP_EVO Z"];
 let currentWordIndex = 0;
 let isTyping = true;
 
