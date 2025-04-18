@@ -51,7 +51,7 @@ function startTimer() {
     timeLeft--;
     updateTimerDisplay();
     
-    if (timeLeft < 0) {
+    if (timeLeft <0) {
       endGame();
     }
   }, 1000);
