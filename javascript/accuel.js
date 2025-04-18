@@ -18,24 +18,27 @@ const words = {
   ],
 };
 
-// Variables pour le timer
-let timeLeft = 15;
-let timerInterval;
-let isPlaying = false;
-const timeDisplay = document.getElementById("time-display");
-const timeBar = document.getElementById("time-bar");
-
-let currentDifficulty = "easy";
-let wordCount = 0;
-let correctChars = 0;
-let totalChars = 0;
-
 const container = document.getElementById("word-container");
 const input = document.getElementById("input-container");
 const loading = document.getElementById("loading");
 const wordCountDisplay = document.getElementById("word-count");
 const accuracyDisplay = document.getElementById("accuracy");
 const modeSelect = document.getElementById("mode");
+const timeDisplay = document.getElementById("time-display");
+const timeBar = document.getElementById("time-bar");
+
+// valeur initiale
+//pour le timer
+let timeLeft = 15;
+let timerInterval;
+let isPlaying = false;
+
+//pour les mode de jeux
+let currentDifficulty = "easy";
+let wordCount = 0;
+let correctChars = 0;
+let totalChars = 0;
+
 
 // Fonction pour démarrer le timer
 function startTimer() {
@@ -48,7 +51,7 @@ function startTimer() {
     timeLeft--;
     updateTimerDisplay();
     
-    if (timeLeft <= 0) {
+    if (timeLeft < 0) {
       endGame();
     }
   }, 1000);
@@ -159,6 +162,7 @@ input.addEventListener("input", () => {
   if (!isPlaying) {
     isPlaying = true; 
     startTimer();
+
   }
   
   const word = container.textContent;
