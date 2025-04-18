@@ -43,12 +43,18 @@ function startTimer() {
   timeLeft = 15;
   updateTimerDisplay();
   isPlaying = true;
-  
+
   timerInterval = setInterval(() => {
     timeLeft--;
+
+    if (timeLeft < 0) {
+      clearInterval(timerInterval); 
+     return;
+    }
+
     updateTimerDisplay();
-    
-    if (timeLeft <= 0) {
+
+    if (timeLeft === 0) {
       endGame();
     }
   }, 1000);
@@ -88,7 +94,7 @@ function getRandomWord(mode) {
 function displayWord(word) {
   container.innerHTML = "";
   container.classList.remove("word-transition");
-  void container.offsetWidth; // Trigger reflow
+  void container.offsetWidth; 
   container.classList.add("word-transition");
 
   for (let letter of word) {
@@ -124,9 +130,9 @@ function nextWordWithLoading() {
     container.style.opacity = "1";
     input.style.display = "block";
     loading.style.opacity = "0";
+    input.focus();
   }, 600);
 }
-
 function updateAccuracy() {
   const accuracy =
     totalChars > 0 ? Math.round((correctChars / totalChars) * 100) : 100;
@@ -150,8 +156,9 @@ function resetTest() {
   wordCountDisplay.textContent = "0";
   accuracyDisplay.textContent = "100%";
   accuracyDisplay.style.color = "#00a8ff";
-  isPlaying = false; 
+  isPlaying = false;
   showNextWord();
+  setTimeout(() => input.focus(), 100);
 }
 
 
@@ -200,7 +207,8 @@ window.addEventListener("DOMContentLoaded", () => {
   clearInterval(timerInterval);
   isPlaying = false;
   changeStylBorder(currentDifficulty);
-  resetTest();        
+  resetTest();
+  input.focus();               
 });
 
 // Clavier visuel
