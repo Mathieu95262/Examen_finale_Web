@@ -6,15 +6,56 @@
 
 // Données de mots selon le niveau
 const words = {
-  easy: ["apple", "banana", "grape", "orange", "cherry",
-    "lemon", "peach", "pear", "plum", "melon",
-    "bread", "chair", "table", "water", "cloud"],
-  medium: ["keyboard", "monitor", "printer", "charger", "battery",
-    "window", "folder", "object", "browser", "cursor",
-    "laptop", "button", "screen", "scroll", "tablet"],
+  easy: [
+    "apple",
+    "banana",
+    "grape",
+    "orange",
+    "cherry",
+    "lemon",
+    "peach",
+    "pear",
+    "plum",
+    "melon",
+    "bread",
+    "chair",
+    "table",
+    "water",
+    "cloud",
+  ],
+  medium: [
+    "keyboard",
+    "monitor",
+    "printer",
+    "charger",
+    "battery",
+    "window",
+    "folder",
+    "object",
+    "browser",
+    "cursor",
+    "laptop",
+    "button",
+    "screen",
+    "scroll",
+    "tablet",
+  ],
   hard: [
-    "synchronize","complicated","development","extravagant","misconception","hypothesis", "architecture", "multithreaded", "transcendental", "cryptography",
-    "implementation", "configuration", "parallelism", "decentralized", "approximation"
+    "synchronize",
+    "complicated",
+    "development",
+    "extravagant",
+    "misconception",
+    "hypothesis",
+    "architecture",
+    "multithreaded",
+    "transcendental",
+    "cryptography",
+    "implementation",
+    "configuration",
+    "parallelism",
+    "decentralized",
+    "approximation",
   ],
 };
 
@@ -27,43 +68,41 @@ const modeSelect = document.getElementById("mode");
 const timeDisplay = document.getElementById("time-display");
 const timeBar = document.getElementById("time-bar");
 const pngRigolo = document.getElementById("mode_img");
+const wpmDisplay = document.getElementById("wpn");
 
 // valeur initiale
-//pour le timer
+let startTime;
+let wpmTimeout;
+let totalWordsCompleted = 0;
 let timeLeft = 15;
 let timerInterval;
 let isPlaying = false;
-
-//pour les mode de jeux
 let currentDifficulty = "easy";
 let wordCount = 0;
 let correctChars = 0;
 let totalChars = 0;
 
-
 // Fonction pour démarrer le timer
 function startTimer() {
   clearInterval(timerInterval);
   timeLeft = 15;
+  startTime = Date.now(); // Initialiser le chrono
+  totalWordsCompleted = 0; // Réinitialiser le compteur
+  wpmDisplay.textContent = "0"; // Réinitialiser l'affichage
   updateTimerDisplay();
   isPlaying = true;
 
   timerInterval = setInterval(() => {
     timeLeft--;
     updateTimerDisplay();
-
-    if (timeLeft < 0) {
-      clearInterval(timerInterval);
-      endGame();
-    }
+    if (timeLeft < 0) endGame();
   }, 1000);
 }
-
 
 function updateTimerDisplay() {
   timeDisplay.textContent = timeLeft;
   timeBar.style.width = `${(timeLeft / 15) * 100}%`;
-  
+
   // Changement de couleur selon le temps restant
   if (timeLeft <= 10) {
     timeDisplay.style.color = "#ff0000";
@@ -81,9 +120,11 @@ function endGame() {
   clearInterval(timerInterval);
   isPlaying = false;
   input.readOnly = true;
-  
+
   // Afficher le score final
-  alert(`Temps écoulé !\nMots tapés: ${wordCount}\nPrécision: ${accuracyDisplay.textContent}`);
+  alert(
+    `Temps écoulé !\nMots tapés: ${wordCount}\nPrécision: ${accuracyDisplay.textContent}`
+  );
 }
 
 function getRandomWord(mode) {
@@ -94,7 +135,7 @@ function getRandomWord(mode) {
 function displayWord(word) {
   container.innerHTML = "";
   container.classList.remove("word-transition");
-  void container.offsetWidth; 
+  void container.offsetWidth;
   container.classList.add("word-transition");
 
   for (let letter of word) {
@@ -111,17 +152,27 @@ function showNextWord() {
   input.focus();
   wordCount++;
   wordCountDisplay.textContent = wordCount;
-  
+
   // Ajout de temps bonus pour chaque nouveau mot
   if (isPlaying) {
-    timeLeft += currentDifficulty === "easy" ? 2 : 
-    currentDifficulty === "medium" ? 3 : 5;
+    timeLeft +=
+      currentDifficulty === "easy" ? 2 : currentDifficulty === "medium" ? 3 : 5;
     if (timeLeft > 15) timeLeft = 15;
     updateTimerDisplay();
   }
 }
 
 function nextWordWithLoading() {
+  totalWordsCompleted++;
+
+  const minutesElapsed = (Date.now() - startTime) / 60000;
+  const wpm = Math.round(totalWordsCompleted / minutesElapsed);
+
+  wordCountDisplay.textContent = `${wordCount} (${wpm} MPM)`;
+
+  clearTimeout(wpmTimeout);
+  wordCountDisplay.textContent = `${wordCount} WPM`;
+  // Animation existante
   container.style.opacity = "0";
   input.style.display = "none";
   loading.style.opacity = "1";
@@ -129,15 +180,18 @@ function nextWordWithLoading() {
   setTimeout(() => {
     showNextWord();
     container.style.opacity = "1";
+    wordCountDisplay.textContent = 0;
     input.style.display = "block";
     loading.style.opacity = "0";
     input.focus();
   }, 600);
 }
+
 function updateAccuracy() {
   const accuracy =
     totalChars > 0 ? Math.round((correctChars / totalChars) * 100) : 100;
   accuracyDisplay.textContent = `${accuracy}%`;
+  calculateWPM(); // Ajout de l'appel ici aussi
 
   if (accuracy >= 90) {
     accuracyDisplay.style.color = "#04f740";
@@ -147,29 +201,44 @@ function updateAccuracy() {
     accuracyDisplay.style.color = "#ff3333";
   }
 }
+function calculateWPM() {
+  const minutesElapsed = (Date.now() - startTime) / 60000; // Temps en minutes
+  const wpm = Math.round(totalWordsCompleted / minutesElapsed);
+  wpmDisplay.textContent = wpm;
+}
+// function calculateWPM() {
+//   if (wordsCompleted === 0) return 0;
 
+//   const minutesElapsed = (Date.now() - startTime) / 60000;
+//   const motsTapes = charactersCompleted / 5; // 5 caractères = 1 mot
+//   const wpm = Math.round(motsTapes / minutesElapsed);
+//   wpmDisplay.textContent = wpm;
+//   return wpm;
+// }
 
 function resetTest() {
-  clearInterval(timerInterval); 
+  clearInterval(timerInterval);
   wordCount = 0;
   correctChars = 0;
   totalChars = 0;
+  totalWordsCompleted = 0;
   wordCountDisplay.textContent = "0";
   accuracyDisplay.textContent = "100%";
+  wpmDisplay.textContent = "0";
   accuracyDisplay.style.color = "#04f740";
   isPlaying = false;
   showNextWord();
+  clearTimeout(wpmTimeout);
+  wordCountDisplay.textContent = "0";
   setTimeout(() => input.focus(), 100);
 }
 
-
 input.addEventListener("input", () => {
   if (!isPlaying) {
-    isPlaying = true; 
+    isPlaying = true;
     startTimer();
-
   }
-  
+
   const word = container.textContent;
   const typed = input.value;
   const spans = container.querySelectorAll(".letter");
@@ -192,19 +261,46 @@ input.addEventListener("input", () => {
 
   updateAccuracy();
 
-  // Passer au mot suivant quand on a fini de taper le précédent
+  // Vérifier si le mot est complet
   if (typed.length === word.length) {
+    const isCorrect = checkCompletedWord();
+    if (isCorrect) {
+      // Bonus pour mot correct
+      timeLeft += 1;
+      if (timeLeft > 15) timeLeft = 15;
+      updateTimerDisplay();
+    }
+
     nextWordWithLoading();
   }
 });
 
+function checkCompletedWord() {
+  const currentWord = container.textContent;
+  const typedWord = input.value;
+
+  // Vérifie si le mot est complet et correct
+  if (typedWord.length === currentWord.length) {
+    if (typedWord === currentWord) {
+      // Mot correctement tapé
+      console.log("Mot correct !");
+      return true;
+    } else {
+      // Mot incorrect
+      console.log("Erreur dans le mot");
+      return false;
+    }
+  }
+  // Mot pas encore complet
+  return null;
+}
+
 modeSelect.addEventListener("change", () => {
   currentDifficulty = modeSelect.value;
   changeStylBorder(currentDifficulty);
-  changePng(currentDifficulty)
+  changePng(currentDifficulty);
   resetTest();
 });
-
 
 window.addEventListener("DOMContentLoaded", () => {
   clearInterval(timerInterval);
@@ -212,7 +308,7 @@ window.addEventListener("DOMContentLoaded", () => {
   changeStylBorder(currentDifficulty);
   changePng(currentDifficulty);
   resetTest();
-  input.focus();               
+  input.focus();
 });
 
 // Clavier visuel
@@ -220,7 +316,6 @@ const keys = "AZERTYUIOPQSDFGHJKLMWXCVBN".split("");
 const keyboardDiv = document.getElementById("keyboard");
 const textInput = document.getElementById("input-field");
 let ignoreNextKeydown = false;
-
 
 function activateKey(keyPressed, fromClick = false) {
   let keyDiv = document.getElementById(`key-${keyPressed.toLowerCase()}`);
@@ -241,7 +336,7 @@ function changeStylBorder(difficulty) {
 
   keys.forEach((letter) => {
     let keyDiv = document.createElement("div");
-    keyDiv.classList= '';
+    keyDiv.classList = "";
     keyDiv.classList.add(`key_${difficulty}`);
     keyDiv.textContent = letter;
     keyDiv.id = `key-${letter.toLowerCase()}`;
@@ -254,7 +349,7 @@ function changeStylBorder(difficulty) {
   });
 }
 function changePng(difficulty) {
-   pngRigolo.src = `image/Smiling_${difficulty}.png`;
+  pngRigolo.src = `image/Smiling_${difficulty}.png`;
 }
 
 document.addEventListener("keydown", (event) => {
@@ -274,4 +369,4 @@ document.addEventListener("keydown", (event) => {
     const inputEvent = new Event("input", { bubbles: true });
     textInput.dispatchEvent(inputEvent);
   }
-})
+});

@@ -7,6 +7,7 @@
   --second_color: #fff;
   --third_color: #444;
   --background_color: #000;
+  --base_color :#9f00c7;  
 }
 html {
   margin: 0;
@@ -19,7 +20,9 @@ body {
   flex-direction: column;
   align-items: center;
   height: 100vh;
-  background-color: var(--background_color);
+  background-image: url(../image/fond_body.jpg);
+  background-size: cover;
+  background-position: center;
   color: var(--second_color);
   font-family: "Audiowide", sans-serif;
   height: 100vh;
@@ -31,25 +34,59 @@ body {
   top: 0;
   height: 5rem;
   width: 100%;
-  background-color: #6f01ff;
+  background-image: url(../image/fond_nav_bar.jpg);
+  background-position: top;
+  background-size: cover;
+  box-shadow: 0px 8px 50px 5px var(--base_color);
+  z-index: 100;
 }
 .logo_entreprise {
   margin-left: 2%;
   width: 10%;
   height: 100%;
 }
+#restart_game {
+  width: 6%;
+  height: 90%;
+  position: absolute;
+  left: 46.5%;
+  right: 46%;
+  cursor: pointer;
+}
+#record_game {
+  width: 6%;
+  height: 80%;
+  top: 1.5rem;
+  position: absolute;
+  right: 38%;
+}
+#return_gamerecord_game {
+  width: 5%;
+  height: 90%;
+  top: 1.5rem;
+  position: absolute;
+  left: 38%;
+}
+
 .nav_bar_login{
   position: absolute;
   right: 2rem;
   background-color: #0066ff;
   color: #fff;
   font-family: Arial, Helvetica, sans-serif;
+  clip-path: polygon(
+    15px 0%,
+    100% 0%,
+    100% 70%,
+    calc(100% - 15px) 100%,
+    0 100%,
+    0% 30%
+  );
   text-decoration: none;
   font-size: 1.8rem;
   font-weight: 600;
   padding: 7px 20px;
   border: 2px solid #fff;
-  border-radius: 40px;
   top: 20%;
 }
 #main-of-game {
@@ -271,15 +308,12 @@ input {
   background: cyan;
   box-shadow: 0 0 10px cyan;
 }
-.key-backspace {
-  grid-column: span 2;
-  width: 105px;
-}
+
 
 .letter {
   display: inline-block;
   margin: 0 2px;
-  font-size: 2.5rem;
+  font-size: 3.5rem;
   transition: all 0.2s ease;
 }
 
