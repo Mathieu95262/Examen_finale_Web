@@ -121,11 +121,17 @@ function endGame() {
   isPlaying = false;
   input.readOnly = true;
 
-  // Afficher le score final
-  alert(
-    `Temps écoulé !\nMots tapés: ${wordCount}\nPrécision: ${accuracyDisplay.textContent}`
-  );
+  document.getElementById("score-mots").textContent = `Mots tapés : ${wordCount}`;
+  document.getElementById("score-precision").textContent = `Précision : ${accuracyDisplay.textContent}`;
+  document.getElementById("endGame").style.display = "flex";
 }
+
+document.getElementById("btn-relancer").addEventListener("click", () => {
+  document.getElementById("endGame").style.display = "none";
+  input.readOnly = false;
+  resetTest();
+});
+
 
 function getRandomWord(mode) {
   const wordList = words[mode];
