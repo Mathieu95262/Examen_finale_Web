@@ -34,13 +34,13 @@ const timeDisplay = document.getElementById("time-display");
 const timeBar = document.getElementById("time-bar");
 const pngRigolo = document.getElementById("mode_img");
 const wpmDisplay = document.getElementById("wpn");
-const objectifs = { easy: 15, medium: 50, hard: 100 };
+const objectifs = { easy: 20, medium: 50, hard: 100 };
 
 // valeur initiale
 let startTime;
 let wpmTimeout;
 let totalWordsCompleted = 0;
-let timeLeft = 15;
+let timeLeft = 20;
 let timerInterval;
 let isPlaying = false;
 let currentDifficulty = "easy";
@@ -53,7 +53,7 @@ let motsIncorrects = 0;
 // Fonction pour démarrer le timer
 function startTimer() {
   clearInterval(timerInterval);
-  timeLeft = 15;
+  timeLeft = 20;
   startTime = Date.now(); // Initialiser le chrono
   totalWordsCompleted = 0; // Réinitialiser le compteur
   wpmDisplay.textContent = "0"; // Réinitialiser l'affichage
@@ -73,13 +73,13 @@ function startTimer() {
 
 function updateTimerDisplay() {
   timeDisplay.textContent = timeLeft;
-  timeBar.style.width = `${(timeLeft / 15) * 100}%`;
+  timeBar.style.width = `${(timeLeft / 20) * 100}%`;
 
   // Changement de couleur selon le temps restant
-  if (timeLeft <= 10) {
+  if (timeLeft <= 8) {
     timeDisplay.style.color = "#ff0000";
     timeBar.style.backgroundColor = "#ff0000";
-  } else if (timeLeft <= 20) {
+  } else if (timeLeft <= 12) {
     timeDisplay.style.color = "#ff9900";
     timeBar.style.backgroundColor = "#ff9900";
   } else {
@@ -141,8 +141,8 @@ function endSuccess() {
   input.readOnly = true;
 
   // Affiche la fenêtre Bravo avec l'objectif atteint
-  document.getElementById("bravo-mots-corrects").textContent = `✅ Mots corrects : ${motsCorrects}/${objectifs[currentDifficulty]}`;
-  document.getElementById("bravo-mots-faux").textContent = `❌ Mots incorrects : ${motsIncorrects}`;
+  document.getElementById("bravo-mots-corrects").textContent = `Mots corrects : ${motsCorrects}/${objectifs[currentDifficulty]}`;
+  document.getElementById("bravo-mots-faux").textContent = `Mots incorrects : ${motsIncorrects}`;
   document.getElementById("successWindow").style.display = "flex";
 }
 
@@ -201,7 +201,7 @@ function resetTest() {
   motsCorrects = 0; 
   motsIncorrects = 0; 
   totalWordsCompleted = 0;
-  timeLeft = 15;
+  timeLeft = 20;
   
   wordCountDisplay.textContent = "0";
   accuracyDisplay.textContent = "100%";
@@ -252,7 +252,7 @@ input.addEventListener("input", () => {
         currentDifficulty === "easy" ? 2 :
         currentDifficulty === "medium" ? 3 : 5;
 
-      if (timeLeft > 15) timeLeft = 15;
+      if (timeLeft > 20) timeLeft = 20;
       updateTimerDisplay();
     }
 

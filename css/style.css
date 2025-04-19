@@ -1,7 +1,6 @@
 * {
   box-sizing: border-box;
   margin: 0;
- 
 }
 :root {
   --primary_color: #222;
@@ -18,23 +17,37 @@ body {
   font-family: "Audiowide", sans-serif;
   height: 100%;
   width: 100%;
-  overflow: hidden; 
+  overflow: hidden;
   margin: 0;
 }
-#bg-video {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  z-index: -1;
+ .image-decoration-1 {
+  width: 10%;
+  height: 12%;
+  position: absolute;
+  right: 16rem;
+  top: 50%;
+
+}
+.image-decoration-2  {
+  width: 20%;
+  height: 30%;
+  position: absolute;
+  top: 25%;
+  right: 2rem;
+}
+
+.image-carte-dev {
+  position: absolute;
+  width: 220px;
+  height: 200px;
+  right: 3rem;
+  bottom: 1.5rem;
 }
 h1 {
-        font-family: 'Audiowide' ,sans-serif;
-        font-size: 5rem;
-        cursor: none;
-        color: #000;
+  font-family: "Audiowide", sans-serif;
+  font-size: 5rem;
+  cursor: none;
+  color: #000;
 }
 h1::after {
   content: "";
@@ -57,48 +70,52 @@ h1::after {
   }
 }
 #link_play {
-    background-color: var(--cool_color);
-    color: var(--background_color);
-    text-decoration: none;
-    font-weight: 600;
-    padding: 1rem 4rem;
-    margin: 20px;
-    font-size: 3rem;
-    box-shadow:0px 0px 10px  var(--cool_color);
-    border-radius: 20px;
-    transition: 0.5s;
+  background-color: var(--cool_color);
+  color: var(--background_color);
+  text-decoration: none;
+  font-weight: 600;
+  padding: 1rem 4rem;
+  margin: 20px;
+  width: 25rem;
+  font-size: 3rem;
+  box-shadow: 0px 0px 10px var(--cool_color);
+  border-radius: 20px;
+  transition: 0.5s;
 }
 #link_play:hover {
-    transform: scale(0);
-     box-shadow:0px 0px 20px  var(--cool_color);
-     transition: 0.5sfx;
+  transform: scale(1.05);
+  box-shadow: 0px 0px 20px var(--cool_color);
+  transition: 0.5sfx;
 }
 
-.content_link {
-     position: absolute;
-    bottom: 10%;
-    height: 50%;
-    width: 40%;
-    border: 2px solid red;
-}
+.content_description {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  bottom: 10%;
+  height: 50%;
+  width: 50%;
+  }
 #description {
+  font-size: 1.2rem;
+  margin-top: 4%;
   color: #000;
 }
 #choice_link {
   display: flex;
-  align-items:center ;
+  align-items: center;
   margin-top: 4rem;
   color: #000;
-  font-family: Arial, Helvetica, sans-serif
+  font-family: Arial, Helvetica, sans-serif;
 }
 #choice_link::before {
-  content: '';
+  content: "";
   border: 1px solid rgb(48, 47, 47);
   width: 5rem;
   margin-right: 3px;
 }
 #choice_link::after {
-  content: '';
+  content: "";
   border: 1px solid rgb(48, 47, 47);
   width: 5rem;
   margin-left: 3px;
