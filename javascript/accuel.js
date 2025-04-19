@@ -125,8 +125,12 @@ function endGame() {
   isPlaying = false;
   input.readOnly = true;
 
-  document.getElementById("score-mots").textContent = `Mots tapés : ${wordCount}`;
-  document.getElementById("score-precision").textContent = `Précision : ${accuracyDisplay.textContent}`;
+  document.getElementById(
+    "score-mots"
+  ).textContent = `Mots tapés : ${wordCount}`;
+  document.getElementById(
+    "score-precision"
+  ).textContent = `Précision : ${accuracyDisplay.textContent}`;
   document.getElementById("endGame").style.display = "flex";
 }
 
@@ -135,7 +139,6 @@ document.getElementById("btn-relancer").addEventListener("click", () => {
   input.readOnly = false;
   resetTest();
 });
-
 
 function getRandomWord(mode) {
   const wordList = words[mode];
@@ -177,12 +180,11 @@ function nextWordWithLoading() {
 
   const minutesElapsed = (Date.now() - startTime) / 60000;
   const wpm = Math.round(totalWordsCompleted / minutesElapsed);
-
-  wordCountDisplay.textContent = `${wordCount} (${wpm} MPM)`;
+  wordCountDisplay.textContent = wordCount;
 
   clearTimeout(wpmTimeout);
-  wordCountDisplay.textContent = `${wordCount} WPM`;
   // Animation existante
+  wordCountDisplay.textContent = wordCount;
   container.style.opacity = "0";
   input.style.display = "none";
   loading.style.opacity = "1";
@@ -190,7 +192,7 @@ function nextWordWithLoading() {
   setTimeout(() => {
     showNextWord();
     container.style.opacity = "1";
-    wordCountDisplay.textContent = 0;
+    wordCountDisplay.textContent = wordCount;
     input.style.display = "block";
     loading.style.opacity = "0";
     input.focus();
@@ -216,15 +218,6 @@ function calculateWPM() {
   const wpm = Math.round(totalWordsCompleted / minutesElapsed);
   wpmDisplay.textContent = wpm;
 }
-// function calculateWPM() {
-//   if (wordsCompleted === 0) return 0;
-
-//   const minutesElapsed = (Date.now() - startTime) / 60000;
-//   const motsTapes = charactersCompleted / 5; // 5 caractères = 1 mot
-//   const wpm = Math.round(motsTapes / minutesElapsed);
-//   wpmDisplay.textContent = wpm;
-//   return wpm;
-// }
 
 function resetTest() {
   clearInterval(timerInterval);
