@@ -73,12 +73,16 @@ h1::after {
      box-shadow:0px 0px 20px  var(--cool_color);
      transition: 0.5sfx;
 }
+
 .content_link {
      position: absolute;
     bottom: 10%;
     height: 50%;
     width: 40%;
     border: 2px solid red;
+}
+#description {
+  color: #000;
 }
 #choice_link {
   display: flex;
