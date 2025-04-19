@@ -48,6 +48,7 @@
       <h2>Temps écoulé !</h2>
       <p id="score-mots"></p>
       <p id="score-precision"></p>
+      <p id="score-wpm"></p>
       <button id="btn-relancer" onclick="location.reload()">Rejouer</button>
     </div>
   </div>
@@ -69,6 +70,14 @@
   </div>
 <div class="keyboard" id="keyboard">
     <!-- clavier generer avec js -->
+    </div>
+    <div id="successWindow" class="restart">
+      <div class="restart-containt">
+        <h2>Objectif atteint !</h2>
+        <p id="bravo-mots-corrects"></p>
+        <p id="bravo-mots-faux"></p>
+        <button id="btn-relancer-bravo">Rejouer</button>
+      </div>
     </div>
   </div>
     <!-- <script src="javascript/clavier.js"></script> -->
