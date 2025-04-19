@@ -10,6 +10,7 @@
   --cool_color: cyan;
 }
 body {
+  background-image: url(../image/fond_body.jpg);
   padding: 5rem;
   display: flex;
   flex-direction: column;
@@ -45,17 +46,17 @@ body {
 }
 h1 {
   font-family: "Audiowide", sans-serif;
-  font-size: 5rem;
+  font-size: 4.5rem;
   cursor: none;
-  color: #000;
+  color: #ffffff;
 }
 h1::after {
   content: "";
   position: absolute;
-  height: 5rem;
+  height: 4.5rem;
   width: 5px;
   margin-left: 10px;
-  background: #000;
+  background: #ffffff;
   animation: cursor 1s infinite;
 }
 @keyframes cursor {
@@ -99,7 +100,7 @@ h1::after {
 #description {
   font-size: 1.2rem;
   margin-top: 4%;
-  color: #000;
+  color: #ffffff;
 }
 #choice_link {
   display: flex;
