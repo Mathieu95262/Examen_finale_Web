@@ -80,6 +80,7 @@ body {
   transform: scale(1.1);
 }
 
+
 .nav_bar_login {
   position: absolute;
   right: 2rem;
@@ -270,6 +271,24 @@ option {
 }
 
 #btn-relancer:hover {
+  background-color: #00cccc;
+  box-shadow: 0 0 10px #00ffff;
+}
+
+#btn-relancer-bravo {
+  margin-top: 1.5rem;
+  padding: 1rem 2rem;
+  font-size: 1.3rem;
+  font-family: "Audiowide", sans-serif;
+  color: black;
+  background-color: #00ffff;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+#btn-relancer-bravo:hover {
   background-color: #00cccc;
   box-shadow: 0 0 10px #00ffff;
 }
