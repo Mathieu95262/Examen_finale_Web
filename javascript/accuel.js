@@ -93,10 +93,14 @@ function startTimer() {
   isPlaying = true;
 
   timerInterval = setInterval(() => {
-    timeLeft--;
-    updateTimerDisplay();
-    if (timeLeft < 0) endGame();
-  }, 1000);
+    if (timeLeft <= 0) {
+      clearInterval(timerInterval);
+      endGame();
+    } else {
+      timeLeft--;
+      updateTimerDisplay();
+    }
+  }, 1000);  
 }
 
 function updateTimerDisplay() {
@@ -160,12 +164,12 @@ function showNextWord() {
   wordCountDisplay.textContent = wordCount;
 
   // Ajout de temps bonus pour chaque nouveau mot
-  if (isPlaying) {
-    timeLeft +=
-      currentDifficulty === "easy" ? 2 : currentDifficulty === "medium" ? 3 : 5;
-    if (timeLeft > 15) timeLeft = 15;
-    updateTimerDisplay();
-  }
+  // if (isPlaying) {
+  //   timeLeft +=
+  //     currentDifficulty === "easy" ? 2 : currentDifficulty === "medium" ? 3 : 5;
+  //   if (timeLeft > 15) timeLeft = 15;
+  //   updateTimerDisplay();
+  // }
 }
 
 function nextWordWithLoading() {
@@ -270,12 +274,17 @@ input.addEventListener("input", () => {
   // Vérifier si le mot est complet
   if (typed.length === word.length) {
     const isCorrect = checkCompletedWord();
-    if (isCorrect) {
-      // Bonus pour mot correct
-      timeLeft += 1;
+    if (isCorrect === true) {
+      //temps bonus
+      timeLeft +=
+        currentDifficulty === "easy" ? 2 :
+        currentDifficulty === "medium" ? 3 : 5;
+  
       if (timeLeft > 15) timeLeft = 15;
       updateTimerDisplay();
-    }
+  
+      nextWordWithLoading();
+    } else if (isCorrect === false)
 
     nextWordWithLoading();
   }
