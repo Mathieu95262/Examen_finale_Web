@@ -27,6 +27,8 @@ body {
   padding: 2% 2%;
   border-bottom: 20px solid #003cff;
   border-radius: 20px;
+  background-color: rgb(48,89,124);
+   color: #ffff
 }
 
 #information ul {
@@ -49,7 +51,7 @@ input {
   font-size: 1rem;
   height: 2.5rem;
   border-radius: 10px;
-  border-bottom: 4px solid #003cff;
+  border-bottom: 4px solid cyan;
 }
 .vpn {
   position: absolute;

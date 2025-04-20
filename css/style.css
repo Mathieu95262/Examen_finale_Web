@@ -21,22 +21,39 @@ body {
   overflow: hidden;
   margin: 0;
 }
- .image-decoration-1 {
+.image-decoration-1 {
   width: 10%;
   height: 12%;
   position: absolute;
   right: 16rem;
   top: 50%;
-
+  animation-name: bouge;
+  animation-duration: 1s;
+  animation-iteration-count: infinite;
+  animation-direction: alternate-reverse;
+  animation-timing-function: cubic-bezier(0.41, 0.46, 0.75, 0.72);
 }
-.image-decoration-2  {
+.image-decoration-2 {
   width: 20%;
   height: 30%;
   position: absolute;
   top: 25%;
   right: 2rem;
+  animation-name: bouge;
+  animation-duration: 2s;
+  animation-iteration-count: infinite;
+  animation-direction: alternate-reverse;
+  animation-fill-mode: both;
+  animation-timing-function: cubic-bezier(0.41, 0.46, 0.75, 0.72);
 }
-
+@keyframes bouge {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(5%);
+  }
+}
 .image-carte-dev {
   position: absolute;
   width: 220px;
@@ -96,7 +113,7 @@ h1::after {
   bottom: 10%;
   height: 50%;
   width: 50%;
-  }
+}
 #description {
   font-size: 1.2rem;
   margin-top: 4%;
